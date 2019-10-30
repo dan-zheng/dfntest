@@ -13,13 +13,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-public protocol RetainedConvProtocol: class {
-    associatedtype T where T: TensorView, T.Element: Numeric
+public class RetainedConv<T> where T: TensorView, T.Element: Numeric {
+    // Ensure that abstract class `RetainedConv` cannot be directly initialized.
+    private init() {}
 
-    func execute(_ x: T) -> T
+    func execute(_ x: T) -> T {
+         fatalError("Abstract class method must be overridden")
+    }
 }
 
-public class RetainedConv<T>: RetainedConvProtocol where
+public class RetainedConvCPU<T>: RetainedConv<T> where
     T: TensorView, T.Element: Numeric
 {
     // retained temporary tensor
@@ -31,7 +34,7 @@ public class RetainedConv<T>: RetainedConvProtocol where
         result = x
     }
 
-    public func execute(_ x: T) -> T {
+    public override func execute(_ x: T) -> T {
         
         return result
     }

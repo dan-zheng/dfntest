@@ -53,9 +53,8 @@ public protocol DeviceIntrinsics {
 
     
     //<<<<<<<<<<<<<<<<<<<
-    func createConv<T, FN>(x: T) -> FN where
-        T: TensorView, T.Element: Numeric,
-        FN: RetainedConvProtocol
+    func createConv<T>(x: T) -> RetainedConv<T> where
+        T: TensorView, T.Element: Numeric
 }
 
 //------------------------------------------------------------------------------
@@ -83,11 +82,10 @@ public extension DeviceIntrinsics {
 
     //<<<<<<<<<<<<<<<<<<<
     // I want to return different generic implementations of RetainedConv
-    func createConv<T, FN>(x: T) -> FN where
-        T: TensorView, T.Element: Numeric,
-        FN: RetainedConvProtocol
+    func createConv<T>(x: T) -> RetainedConv<T> where
+        T: TensorView, T.Element: Numeric
     {
-        return RetainedConv(x: x)
+        return RetainedConvCPU(x: x)
     }
 }
 
